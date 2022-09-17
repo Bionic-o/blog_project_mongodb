@@ -10,7 +10,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection failed'))
 function _makeBoardGames(dbBoardGames) {
     return {
         id: dbBoardGames._id,
-        title: dbBoardGames.name,
+        title: dbBoardGames.title,
         author: dbBoardGames.author,
         imgUrl: dbBoardGames.img_url,
         richText: dbBoardGames.rich_text,
@@ -23,6 +23,12 @@ async function getBoardGames() {
     return dbBoardGames.map((dbBoardGame) => _makeBoardGames(dbBoardGame))
 }
 
+async function getSingleGame(id) {
+    const singleGame = await BoardGame.findById(id)
+    return _makeBoardGames(singleGame)
+}
+
+
 async function postBoardGame(update) {
     const postBoardGame = await BoardGame.create({
         title: update.title,
@@ -34,8 +40,33 @@ async function postBoardGame(update) {
     return _makeBoardGames(postBoardGame)
 }
 
+async function deleteBoardGame(id) {
+    const deleteGame = await BoardGame.deleteOne({_id:id})
+    return deleteGame
+}
+
+async function putBoardGame(id, title, author, imgUrl, richText, publisher) {
+    const updateGame = await BoardGame.updateOne(
+      { id: id },
+      {
+        title: title || "",
+        author: author || "",
+        img_url: imgUrl || "",
+        rich_text: richText || "",
+        publisher: publisher || "",
+      }
+    );
+  
+    return updateGame;
+  }
+
+
+
 module.exports = {
     getBoardGames,
-    postBoardGame
+    postBoardGame,
+    deleteBoardGame,
+    putBoardGame,
+    getSingleGame
 }
 

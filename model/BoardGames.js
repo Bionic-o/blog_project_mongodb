@@ -6,7 +6,7 @@ const boardGameSchema = new Schema({
     title: String,
     author: String,
     img_url: String,
-    rich_text: String,
+    rich_text: {type: String, max:5000},
     publisher: String
 })
 
