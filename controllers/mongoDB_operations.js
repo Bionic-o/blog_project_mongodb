@@ -33,9 +33,23 @@ async function postBoardGame(update) {
     })
     return _makeBoardGames(postBoardGame)
 }
+async function putBoardGame(id,title, author, imgUrl,richText,publicher){
+    
+   const updateGame = await BoardGame.updateOne({id: id},{
+        title: title || '',
+    author: author || '',
+    img_url: imgUrl || '',
+    rich_text: richText || '',
+    publisher: publicher || ''
+    } )
+        
+        
+        return updateGame
+} 
 
 module.exports = {
     getBoardGames,
-    postBoardGame
+    postBoardGame,
+    putBoardGame
 }
 

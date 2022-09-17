@@ -3,7 +3,8 @@ dotenv.config()
 
 const {
     getBoardGames,
-    postBoardGame
+    postBoardGame,
+    putBoardGame
 } = require('./controllers/mongoDB_operations')
 
 const express = require('express')
@@ -35,6 +36,17 @@ app.post('/api/boardgames', (req, res) => {
     postBoardGame(req.body)
     .then((data) => {res.send(data)})
     .catch(err => sendErrorOutput(err, res))
+})
+
+
+app.put('/api/boardgames/:id', (req, res)=>{
+    const{id } =req.params
+    const {title, author, imgUrl,richText,publisher} = req.body
+    console.log(id,title, author, imgUrl,richText,publisher)
+     putBoardGame(id,title, author, imgUrl,richText,publisher)
+     .then((data) => {res.send(data)})
+    .catch(err => sendErrorOutput(err, res))
+
 })
 
 
