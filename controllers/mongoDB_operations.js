@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { update } = require('../model/BoardGames')
 const BoardGame = require('../model/BoardGames')
 
 const mongodbConnection = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}/?retryWrites=true&w=majority`
