@@ -37,5 +37,6 @@ async function postBoardGame(update) {
 
 module.exports = {
     getBoardGames,
+    postBoardGame
 }
 
