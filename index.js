@@ -22,7 +22,7 @@ function sendErrorOutput(err, res) {
 
 
 
-app.get('api/boardgames', (req, res) => {
+app.get('/api/boardgames', (req, res) => {
     getBoardGames()
     .then((boardGames) => {res.json(boardGames)})
     .catch(err => sendErrorOutput(err, res))
@@ -31,7 +31,7 @@ app.get('api/boardgames', (req, res) => {
 
 
 
-app.post('api/boardgames', (req, res) => {
+app.post('/api/boardgames', (req, res) => {
     postBoardGame(req.body)
     .then((data) => {res.send(data)})
     .catch(err => sendErrorOutput(err, res))
