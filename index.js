@@ -3,7 +3,10 @@ dotenv.config()
 
 const {
     getBoardGames,
-    postBoardGame
+    postBoardGame,
+    deleteBoardGame,
+    putBoardGame,
+    getSingleGame
 } = require('./controllers/mongoDB_operations')
 
 const express = require('express')
@@ -30,6 +33,14 @@ app.get('/api/boardgames', (req, res) => {
 
 
 
+app.get('/api/boardgames/:id', (req, res) => {
+    const{id}=req.params
+    getSingleGame(id)
+    .then((data) => {res.json(data)})
+    .catch(err => sendErrorOutput(err, res))
+})
+
+
 
 app.post('/api/boardgames', (req, res) => {
     postBoardGame(req.body)
@@ -37,5 +48,25 @@ app.post('/api/boardgames', (req, res) => {
     .catch(err => sendErrorOutput(err, res))
 })
 
+
+
+app.delete('/api/boardgames/:id', (req, res) => {
+    const { id } = req.params
+    deleteBoardGame(id)
+    .then(() => {res.send({status: 'deleted'})})
+    .catch(err => sendErrorOutput(err, res))
+})
+
+
+
+app.put('/api/boardgames/:id', (req, res)=>{
+    const{id } =req.params
+    const {title, author, imgUrl,richText,publisher} = req.body
+    console.log(id,title, author, imgUrl,richText,publisher)
+     putBoardGame(id,title, author, imgUrl,richText,publisher)
+     .then((data) => {res.send(data)})
+    .catch(err => sendErrorOutput(err, res))
+
+})
 
 app.listen(port, () => console.log('conncted to mongoDB'))
