@@ -69,4 +69,4 @@ app.put('/api/boardgames/:id', (req, res)=>{
 
 })
 
-app.listen(port, () => console.log('conncted to mongoDB'))
+app.listen(port, () => console.log('connected to mongoDB'))

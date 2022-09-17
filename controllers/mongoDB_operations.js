@@ -46,18 +46,18 @@ async function deleteBoardGame(id) {
 }
 
 async function putBoardGame(id, title, author, imgUrl, richText, publisher) {
-    const updateGame = await BoardGame.updateOne(
-      { id: id },
+    const updateGame = await BoardGame.findByIdAndUpdate(
+      { _id: id },
       {
-        title: title || "",
-        author: author || "",
-        img_url: imgUrl || "",
-        rich_text: richText || "",
-        publisher: publisher || "",
-      }
+        title: title,
+        author: author,
+        img_url: imgUrl,
+        rich_text: richText,
+        publisher: publisher
+      }, {new : true}
     );
   
-    return updateGame;
+    return _makeBoardGames(updateGame);
   }
 
 
