@@ -16,5 +16,11 @@ function sendErrorOutput(err, res) {
     })
 }
 
+app.get('api/boardgames', (req, res) => {
+    getBoardGames()
+    .then((boardGames) => {res.json(boardGames)})
+    .catch(err => sendErrorOutput(err, res))
+})
+
 
 app.listen(port, () => console.log('conncted to mongoDB'))
