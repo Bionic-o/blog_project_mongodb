@@ -10,10 +10,11 @@ const {
 } = require('./controllers/mongoDB_operations')
 
 const express = require('express')
-
+const cors = require('cors')
 const app = express()
 app.use(express.json())
 app.set('view engine', 'ejs')
+app.use(cors())
 
 const port = process.env.PORT || 5050
 
