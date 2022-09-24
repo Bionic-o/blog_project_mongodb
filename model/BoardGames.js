@@ -7,7 +7,8 @@ const boardGameSchema = new Schema({
     author: String,
     img_url: String,
     rich_text: {type: String, max:5000},
-    publisher: String
+    publisher: String,
+    slug: String
 })
 
 module.exports = mongoose.model('BoardGame', boardGameSchema)

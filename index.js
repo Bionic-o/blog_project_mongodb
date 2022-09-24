@@ -28,7 +28,7 @@ function sendErrorOutput(err, res) {
 
 
 app.get('/api/boardgames', (req, res) => {
-    getBoardGames()
+    getBoardGames(req.query?.filter)
     .then((boardGames) => {res.json(boardGames)})
     .catch(err => sendErrorOutput(err, res))
 })
@@ -42,6 +42,12 @@ app.get('/api/boardgames/:id', (req, res) => {
     .catch(err => sendErrorOutput(err, res))
 })
 
+
+app.get('/api/boardgames/byslug/:slug', (req, res) => {
+    getBoardGames(req.params.slug)
+    .then((boardGames) => {res.json(boardGames[0])})
+    .catch(err => sendErrorOutput(err, res))
+})
 
 
 app.post('/api/boardgames', (req, res) => {
@@ -63,9 +69,9 @@ app.delete('/api/boardgames/:id', (req, res) => {
 
 app.put('/api/boardgames/:id', (req, res)=>{
     const{id } =req.params
-    const {title, author, imgUrl,richText,publisher} = req.body
-    console.log(id,title, author, imgUrl,richText,publisher)
-     putBoardGame(id,title, author, imgUrl,richText,publisher)
+    const {title, author, imgUrl,richText,publisher, slug} = req.body
+    console.log(id,title, author, imgUrl,richText,publisher, slug)
+     putBoardGame(id,title, author, imgUrl,richText,publisher, slug)
      .then((data) => {res.send(data)})
     .catch(err => sendErrorOutput(err, res))
 
