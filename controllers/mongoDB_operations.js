@@ -14,12 +14,17 @@ function _makeBoardGames(dbBoardGames) {
         author: dbBoardGames.author,
         imgUrl: dbBoardGames.img_url,
         richText: dbBoardGames.rich_text,
-        publisher: dbBoardGames.publisher
+        publisher: dbBoardGames.publisher,
+        slug: dbBoardGames.slug
     }
 }
 
-async function getBoardGames() {
-    const dbBoardGames = await BoardGame.find({})
+async function getBoardGames(slug) {
+    const filter = {}
+    if (slug) {
+        filter.slug = slug
+    }
+    const dbBoardGames = await BoardGame.find(filter)
     return dbBoardGames.map((dbBoardGame) => _makeBoardGames(dbBoardGame))
 }
 
@@ -30,12 +35,14 @@ async function getSingleGame(id) {
 
 
 async function postBoardGame(update) {
+    const slug = update.title.replaceAll(" ", "_").toLowerCase()
     const postBoardGame = await BoardGame.create({
         title: update.title,
         author: update.author,
         img_url: update.imgUrl,
         rich_text: update.richText,
-        publisher: update.publisher
+        publisher: update.publisher,
+        slug: slug
     })
     return _makeBoardGames(postBoardGame)
 }
@@ -45,7 +52,7 @@ async function deleteBoardGame(id) {
     return deleteGame
 }
 
-async function putBoardGame(id, title, author, imgUrl, richText, publisher) {
+async function putBoardGame(id, title, author, imgUrl, richText, publisher, slug) {
     const updateGame = await BoardGame.findByIdAndUpdate(
       { _id: id },
       {
@@ -53,7 +60,8 @@ async function putBoardGame(id, title, author, imgUrl, richText, publisher) {
         author: author,
         img_url: imgUrl,
         rich_text: richText,
-        publisher: publisher
+        publisher: publisher,
+        slug: slug
       }, {new : true}
     );
   
