@@ -15,7 +15,7 @@ function _makeBoardGames(dbBoardGames) {
         imgUrl: dbBoardGames.img_url,
         richText: dbBoardGames.rich_text,
         publisher: dbBoardGames.publisher,
-        slug: dbBoardGames._slug
+        slug: dbBoardGames.slug
     }
 }
 
