@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const BoardGame = require('../model/BoardGames')
 
+
 const mongodbConnection = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}?retryWrites=true&w=majority`
 
 mongoose.connect(mongodbConnection)
@@ -62,12 +63,12 @@ async function putBoardGame(id, title, author, imgUrl, richText, publisher) {
   }
 
 
-
 module.exports = {
     getBoardGames,
     postBoardGame,
     deleteBoardGame,
     putBoardGame,
-    getSingleGame
+    getSingleGame,
+    postBoardGame
 }
 
