@@ -2,7 +2,7 @@ const dotenv = require('dotenv')
 const path = require('path')
 const bcrypt = require('bcryptjs');
 const verifyJWT =require('./middleware/verifyJWT.js')
-const check = require('./middleware/check.js')
+
 const ROLES_LIST = require('./config/roles_list.js')
 const verifyRoles = require('./middleware/verifyRoles');
 const {
@@ -105,16 +105,6 @@ app.post('/api/login', (req, res)=>{
     const {username, password} = req.body
     console.log(username)
     postUserLogin(username,password,res)
-  /*   res.json({status: 'ok'})
-    .then((data) => {res.send({ status: "ok", data: data })})
-    .catch(  (err)=>{
-res.status(400).send({status:'error',error: err.message, details: JSON.stringify(err)})
-
-
-
-}) */
-
-    
 })
 // REGISTER API
 app.post('/api/register',  (req, res)=>{
@@ -146,6 +136,9 @@ app.get('/api/refresh', (req, res)=>{
     const cookies= req.cookies
     handleRefreshToken(cookies,res)
 })
+
+
+//LOGOUT
 app.get('/api/logout', (req, res)=>{
     const cookies= req.cookies
     logoutControll(cookies,res)

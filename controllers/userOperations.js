@@ -151,15 +151,18 @@ async function handleRefreshToken(cookies,  res) {
 
   const refreshToken = cookies.jwt;
   const user = await Userlogin.findOne({ refreshToken: refreshToken }).lean();
+
   if (!user) return res.sendStatus(403);
   jwt.verify(refreshToken, JWT_SECRET, (err, decoded) => {
     if (err || user.username !== decoded.username) return res.sendStatus(403);
+    const roles= [user.roles.User]
+    console.log(roles)
     const accesToken = jwt.sign(
-      {"username": decoded.username, "roles":user.roles},
+      {"username": decoded.username, "roles":roles},
       JWT_SECRET,
       {expiresIn:'10m'}
     )
-    res.json({accesToken})
+    res.json({roles,accesToken})
   });
 }
 
