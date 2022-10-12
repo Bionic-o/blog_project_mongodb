@@ -90,7 +90,7 @@ async function postUserLogin(username, password, res) {
   const match = await bcrypt.compare(password, user.password);
   if (match) {
     const roles = Object.values(user.roles).filter(Boolean);
-    /* res.json({"success": `New user ${username} is logged in!`}) */
+    console.log(roles,'inside login')
     const token = jwt.sign(
       { id: user._id, username: user.username , roles: roles},
       JWT_SECRET,
@@ -100,7 +100,7 @@ async function postUserLogin(username, password, res) {
     const refreshToken = jwt.sign(
       { id: user._id, username: user.username },
       JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "15m" }
     );
     await Userlogin.findOneAndUpdate(
       { username },
@@ -113,7 +113,7 @@ async function postUserLogin(username, password, res) {
       maxAge: 24 * 60 * 60 * 1000
     });
 
-    res.json({ status: "ok", accessToken: token, refreshToken: refreshToken, roles: [user.roles.User]   });
+    res.json({ status: "ok",expiresIn:10, accessToken: token, refreshToken: refreshToken, roles: [user.roles.User]   });
   } else {
     res.sendStatus(401);
   }
@@ -147,7 +147,7 @@ async function handleRefreshToken(cookies,  res) {
   if (!cookies?.jwt) {
     return res.sendStatus(401);
   }
-  console.log(cookies.jwt);
+  console.log('REFRESH TOKEN',cookies.jwt);
 
   const refreshToken = cookies.jwt;
   const user = await Userlogin.findOne({ refreshToken: refreshToken }).lean();
@@ -157,12 +157,13 @@ async function handleRefreshToken(cookies,  res) {
     if (err || user.username !== decoded.username) return res.sendStatus(403);
     const roles= [user.roles.User]
     console.log(roles)
-    const accesToken = jwt.sign(
+    const accessToken = jwt.sign(
       {"username": decoded.username, "roles":roles},
       JWT_SECRET,
       {expiresIn:'10m'}
     )
-    res.json({roles,accesToken})
+    console.log('new accesslogintoken',accessToken)
+    res.json({roles, accessToken,expiresIn:10})
   });
 }
 
@@ -183,6 +184,7 @@ async function logoutControll(cookies,  res) {
     { refreshToken: refreshToken },
     { refreshToken: '' }
   );
+  console.log('inside LOGOUT')
   res.clearCookie('jwt',{httpOnly: true,sameSite:'None', secure:true})
   res.sendStatus(204)
 }

@@ -74,7 +74,7 @@ app.get('/api/boardgames/byslug/:slug', (req, res) => {
 
 
 // POST A NEW POST(CREATE) API
-app.post('/api/boardgames', (req, res) => {
+app.post('/api/boardgames', verifyJWT,(req, res) => {
     postBoardGame(req.body)
     .then((data) => {res.send(data)})
     .catch(err => sendErrorOutput(err, res))
@@ -82,7 +82,7 @@ app.post('/api/boardgames', (req, res) => {
 
 
 // DELETE A POST
-app.delete('/api/boardgames/:id', (req, res) => {
+app.delete('/api/boardgames/:id',verifyJWT, (req, res) => {
     const { id } = req.params
     deleteBoardGame(id)
     .then(() => {res.send({status: 'deleted'})})
@@ -91,7 +91,7 @@ app.delete('/api/boardgames/:id', (req, res) => {
 
 
 // UPDATE A POST API
-app.put('/api/boardgames/:id',  (req, res)=>{
+app.put('/api/boardgames/:id',verifyJWT,  (req, res)=>{
     const{id } =req.params
     const {title, author, imgUrl,richText,publisher, slug} = req.body
     console.log(id,title, author, imgUrl,richText,publisher, slug)
@@ -134,7 +134,7 @@ app.post('/api/change-password', (req, res)=>{
 
 
 // REFRESHTOKEN 
-app.get('/api/refresh', (req, res)=>{
+app.get('/api/refresh', verifyJWT,(req, res)=>{
     const cookies= req.cookies
     handleRefreshToken(cookies,res)
 })
