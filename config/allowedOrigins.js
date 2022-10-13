@@ -4,7 +4,8 @@ const allowedOrigins = [
     'https://master--glowing-centaur-a39f50.netlify.app',
     'https://blog-project-frontend22.herokuapp.com',
     'https://lucent-moonbeam-97f47c.netlify.app',
-    'https://blog-test-nine.vercel.app'
+    'https://blog-test-nine.vercel.app',
+    'https://blog-project-psi.vercel.app'
 ];
 
 module.exports = allowedOrigins;
