@@ -134,8 +134,9 @@ app.post('/api/change-password', (req, res)=>{
 
 
 // REFRESHTOKEN 
-app.get('/api/refresh', verifyJWT,(req, res)=>{
+app.get('/api/refresh', /* verifyJWT */(req, res)=>{
     const cookies= req.cookies
+    console.log('get cookie,insidereq',req,'end')
     handleRefreshToken(cookies,res)
 })
 

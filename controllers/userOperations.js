@@ -100,7 +100,7 @@ async function postUserLogin(username, password, res) {
     const refreshToken = jwt.sign(
       { id: user._id, username: user.username },
       JWT_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "1d" }
     );
     await Userlogin.findOneAndUpdate(
       { username },
@@ -143,7 +143,7 @@ async function postChangePassword(token, newPassword, res) {
 //REFRESH TOKEN
 
 async function handleRefreshToken(cookies,  res) {
-  console.log(cookies)
+  console.log('refresh cookie',cookies)
   if (!cookies?.jwt) {
     return res.sendStatus(401);
   }
