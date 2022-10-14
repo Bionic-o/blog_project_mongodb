@@ -115,7 +115,8 @@ app.post('/api/register',  (req, res)=>{
    /*  const password = await bcrypt.hash(plainTextPassword, 10) */
      postUserRegister(username,plainTextPassword,res)
     /* res.json({status: 'ok'}) */
-    .then((data) => {res.send(data)})
+    .then((data) => {
+    console.log('inside.then',data)})
     .catch( function (err){
 res.status(400).send({status:'error',error: err.message, details: JSON.stringify(err)})
 
